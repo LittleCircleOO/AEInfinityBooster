@@ -1,7 +1,6 @@
 package uk.co.hexeption.aeinfinitybooster.setup;
 
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.RegistryObject;
 import uk.co.hexeption.aeinfinitybooster.item.DimensionCard;
 import uk.co.hexeption.aeinfinitybooster.item.InfinityCard;
 
@@ -13,10 +12,10 @@ import uk.co.hexeption.aeinfinitybooster.item.InfinityCard;
  */
 public class ModItems {
 
-    public static final RegistryObject<Item> INFINITY_CARD = Registration.ITEMS.register("infinity_card", InfinityCard::new);
-    public static final RegistryObject<Item> DIMENSION_CARD = Registration.ITEMS.register("dimension_card", DimensionCard::new);
+    public static final Item INFINITY_CARD = Registration.register("infinity_card", new InfinityCard());
+    public static final Item DIMENSION_CARD = Registration.register("dimension_card", new DimensionCard());
 
-    static void register() {
+    public static void register() {
 
     }
 

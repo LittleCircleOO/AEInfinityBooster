@@ -1,68 +1,46 @@
 package uk.co.hexeption.aeinfinitybooster;
 
-import appeng.api.ids.AECreativeTabIds;
+import appeng.api.IAEAddonEntrypoint;
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.RegisterEvent;
-import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.co.hexeption.aeinfinitybooster.setup.ModItems;
-import uk.co.hexeption.aeinfinitybooster.setup.Registration;
 
-import java.lang.reflect.Field;
-
-@Mod("aeinfinitybooster")
-public class AEInfinityBooster {
+public class AEInfinityBooster implements IAEAddonEntrypoint {
 
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
 
     public static final String ID = "aeinfinitybooster";
 
-    public AEInfinityBooster() {
+    @Override
+    public void onAe2Initialized(){
 
-        Registration.register();
+        //ITEM
+        ModItems.register();
 
-
-        IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        eventBus.addListener((RegisterEvent event) -> {
-            LOGGER.info("Creating Creative Mode Tab");
-            if(event.getRegistryKey() == Registries.CREATIVE_MODE_TAB){
-                registerTab(event.getVanillaRegistry());
-            }
-        });
+        //CREATIVE_TAB
+        registerTab();
 
     }
 
-    public static void registerTab(Registry<CreativeModeTab> registry) {
-        var tab = CreativeModeTab.builder()
-                .icon(() -> new ItemStack(ModItems.INFINITY_CARD.get()))
+    public static void registerTab() {
+        CreativeModeTab TAB = FabricItemGroup.builder()
+                .icon(() -> new ItemStack(ModItems.INFINITY_CARD))
                 .displayItems((itemDisplayParameters, output) -> {
-
-                            for (Field field : ModItems.class.getFields()) {
-                                if (field.getType() != RegistryObject.class) continue;
-
-                                try {
-                                    RegistryObject<Item> item = (RegistryObject<Item>) field.get(null);
-                                    output.accept(new ItemStack(item.get()));
-                                } catch (IllegalAccessException e) {
-                                }
-                            }
-
-                        }
-                )
+                    output.accept(ModItems.INFINITY_CARD);
+                    output.accept(ModItems.DIMENSION_CARD);
+                })
                 .title(Component.translatable("item_group." + ID + ".tab"))
                 .build();
-        Registry.register(registry, new ResourceLocation(ID, "aeinfinitybooster"), tab);
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, new ResourceLocation(ID, "aeinfinitybooster"), TAB);
     }
 
 }

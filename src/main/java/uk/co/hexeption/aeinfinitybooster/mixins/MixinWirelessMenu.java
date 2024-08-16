@@ -29,7 +29,7 @@ public abstract class MixinWirelessMenu {
     @Inject(method = "broadcastChanges", at = @At(value = "INVOKE", target = "Lappeng/menu/AEBaseMenu;broadcastChanges()V", shift = At.Shift.BEFORE))
     private void broadcastChanges(CallbackInfo ci) {
 
-        if (this.boosterSlot.getItem().is(ModItems.INFINITY_CARD.get()) || this.boosterSlot.getItem().is(ModItems.DIMENSION_CARD.get())) {
+        if (this.boosterSlot.getItem().is(ModItems.INFINITY_CARD) || this.boosterSlot.getItem().is(ModItems.DIMENSION_CARD)) {
             this.setRange(Long.MAX_VALUE);
         }
     }

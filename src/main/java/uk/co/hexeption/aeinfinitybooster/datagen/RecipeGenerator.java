@@ -2,11 +2,10 @@
 package uk.co.hexeption.aeinfinitybooster.datagen;
 
 import appeng.core.definitions.AEItems;
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.PackOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
@@ -21,15 +20,15 @@ import java.util.function.Consumer;
  * @author Hexeption admin@hexeption.co.uk
  * @since 14/02/2021 - 06:35 pm
  */
-public class RecipeGenerator extends RecipeProvider {
+public class RecipeGenerator extends FabricRecipeProvider {
 
-    public RecipeGenerator(PackOutput packOutput) {
-        super(packOutput);
+    public RecipeGenerator(FabricDataOutput generator) {
+        super(generator);
     }
 
     @Override
-    protected void buildRecipes(Consumer<FinishedRecipe> p_251297_) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.INFINITY_CARD.get())
+    public void buildRecipes(Consumer<FinishedRecipe> p_251297_) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.INFINITY_CARD)
                 .pattern("ERE").pattern("RSR").pattern("NNN")
                 .define('E', Items.ENDER_EYE)
                 .define('R', AEItems.WIRELESS_BOOSTER.asItem())
@@ -37,12 +36,12 @@ public class RecipeGenerator extends RecipeProvider {
                 .define('N', Items.NETHERITE_INGOT)
                 .unlockedBy("has_item", has(Items.NETHERITE_INGOT))
                 .save(p_251297_, new ResourceLocation(AEInfinityBooster.ID, "infinity_card"));
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DIMENSION_CARD.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DIMENSION_CARD)
                 .pattern("RNR").pattern("NEN").pattern("RNR")
-                .define('R', ModItems.INFINITY_CARD.get())
+                .define('R', ModItems.INFINITY_CARD)
                 .define('E', Items.ENDER_EYE)
                 .define('N', Items.NETHER_STAR)
-                .unlockedBy("has_item", has(ModItems.INFINITY_CARD.get()))
+                .unlockedBy("has_item", has(ModItems.INFINITY_CARD))
                 .save(p_251297_, new ResourceLocation(AEInfinityBooster.ID, "dimension_card"));
     }
 

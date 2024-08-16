@@ -30,7 +30,7 @@ public class MixinWirelessTerminalMenuHost extends ItemMenuHost {
 
         wirelessAccessPoint.getGrid().getMachines(WirelessAccessPointBlockEntity.class).forEach(wirelessBlockEntity -> {
 
-            if (wirelessBlockEntity.getInternalInventory().getStackInSlot(0).is(ModItems.DIMENSION_CARD.get())) {
+            if (wirelessBlockEntity.getInternalInventory().getStackInSlot(0).is(ModItems.DIMENSION_CARD)) {
                 cir.setReturnValue(1024.0D);
             }
 
@@ -38,7 +38,7 @@ public class MixinWirelessTerminalMenuHost extends ItemMenuHost {
                 return;
             }
 
-            if (wirelessBlockEntity.getInternalInventory().getStackInSlot(0).is(ModItems.INFINITY_CARD.get())) {
+            if (wirelessBlockEntity.getInternalInventory().getStackInSlot(0).is(ModItems.INFINITY_CARD)) {
                 cir.setReturnValue(256.0D);
             }
         });

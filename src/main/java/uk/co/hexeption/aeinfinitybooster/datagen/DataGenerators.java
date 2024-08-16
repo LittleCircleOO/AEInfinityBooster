@@ -1,11 +1,7 @@
 package uk.co.hexeption.aeinfinitybooster.datagen;
 
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DataProvider;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import uk.co.hexeption.aeinfinitybooster.AEInfinityBooster;
+import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 
 /**
  * RSInfinityBoosterDataGen
@@ -13,16 +9,14 @@ import uk.co.hexeption.aeinfinitybooster.AEInfinityBooster;
  * @author Hexeption admin@hexeption.co.uk
  * @since 14/02/2021 - 06:48 pm
  */
-@Mod.EventBusSubscriber(modid = AEInfinityBooster.ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public final class DataGenerators {
+
+public final class DataGenerators implements DataGeneratorEntrypoint {
+
+    public void onInitializeDataGenerator(FabricDataGenerator generator){
+        generator.createPack().addProvider(RecipeGenerator::new);
+    }
 
     private DataGenerators() {
     }
 
-    @SubscribeEvent
-    public static void onGatherData(GatherDataEvent event) {
-        DataGenerator generator = event.getGenerator();
-
-        generator.addProvider(true, (DataProvider.Factory<RecipeGenerator>) p_253851_ -> new RecipeGenerator(generator.getPackOutput()));
-    }
 }
